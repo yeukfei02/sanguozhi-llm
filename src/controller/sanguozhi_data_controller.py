@@ -21,7 +21,7 @@ def sanguozhi_data_controller(request: Request):
         documents = embedding_result.get('documents')
         if search_text and documents:
             for document in documents:
-                prompt = f"Using this data: {document}. Respond to this prompt: {search_text}"
+                prompt = f"Using this data: {document}. Respond to this prompt with Chinese: {search_text}"
                 generated_result = ollama_generate(
                     'digimonster/llama3-chinese-response', prompt)
                 print(f"generated_result = {generated_result}")
@@ -147,7 +147,6 @@ def get_data_by_ollama_embedding_and_vector_db(query_params):
         collection,
         query_embeddings=embeddings_data,
         n_results=number_of_results,
-        metadata_filter=metadata_filter,
-        search_text=search_text
+        metadata_filter=metadata_filter
     )
     return result
