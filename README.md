@@ -2,6 +2,10 @@
 
 sanguozhi-llm
 
+documentation: <https://documenter.getpostman.com/view/3827865/2sAXjF7Zxn>
+
+api url: <>
+
 ## Requirement
 
 - install python (v3.12)
