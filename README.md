@@ -10,7 +10,7 @@ sanguozhi-llm
 ## Testing and run
 
 ```zsh
-// install node dependencies
+// install dependencies
 $ pip install -r requirements.txt
 
 // pull llm model
