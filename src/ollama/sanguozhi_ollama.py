@@ -336,56 +336,83 @@ def read_json_file(collection):
             embeddings.append(embeddings_data)
 
     # read json file from books folder
-    for file_name in glob('src/ollama/json/books/吳書/*.json'):
-        with open(file_name) as json_file:
-            data = json.load(json_file)
-            # print(f"data = {data}")
+    with open('src/ollama/json/books/吳書/目錄.json') as f:
+        table_of_contents_data_json = json.load(f)
 
-            for value in data:
-                id = str(uuid.uuid4())
-                ids.append(id)
+        for chapter in table_of_contents_data_json:
+            with open(f"src/ollama/json/books/吳書/{chapter}.json") as json_file:
+                data = json.load(json_file)
+                # print(f"data = {data}")
 
-                documents.append(value)
+                for value in data:
+                    id = str(uuid.uuid4())
+                    ids.append(id)
 
-                embeddings_data = ollama_embedding(
-                    "shaw/dmeta-embedding-zh", value)
-                embeddings.append(embeddings_data)
+                    documents.append(value)
 
-                metadatas.append({"id": id})
+                    embeddings_data = ollama_embedding(
+                        "shaw/dmeta-embedding-zh", value)
+                    embeddings.append(embeddings_data)
 
-    for file_name in glob('src/ollama/json/books/蜀書/*.json'):
-        with open(file_name) as json_file:
-            data = json.load(json_file)
-            # print(f"data = {data}")
+                    metadatas.append(
+                        {
+                            "id": id,
+                            "book": "吳書",
+                            "chapter": chapter
+                        }
+                    )
 
-            for value in data:
-                id = str(uuid.uuid4())
-                ids.append(id)
+    with open('src/ollama/json/books/蜀書/目錄.json') as f:
+        table_of_contents_data_json = json.load(f)
 
-                documents.append(value)
+        for chapter in table_of_contents_data_json:
+            with open(f"src/ollama/json/books/蜀書/{chapter}.json") as json_file:
+                data = json.load(json_file)
+                # print(f"data = {data}")
 
-                embeddings_data = ollama_embedding(
-                    "shaw/dmeta-embedding-zh", value)
-                embeddings.append(embeddings_data)
+                for value in data:
+                    id = str(uuid.uuid4())
+                    ids.append(id)
 
-                metadatas.append({"id": id})
+                    documents.append(value)
 
-    for file_name in glob('src/ollama/json/books/魏書/*.json'):
-        with open(file_name) as json_file:
-            data = json.load(json_file)
-            # print(f"data = {data}")
+                    embeddings_data = ollama_embedding(
+                        "shaw/dmeta-embedding-zh", value)
+                    embeddings.append(embeddings_data)
 
-            for value in data:
-                id = str(uuid.uuid4())
-                ids.append(id)
+                    metadatas.append(
+                        {
+                            "id": id,
+                            "book": "蜀書",
+                            "chapter": chapter
+                        }
+                    )
 
-                documents.append(value)
+    with open('src/ollama/json/books/魏書/目錄.json') as f:
+        table_of_contents_data_json = json.load(f)
 
-                embeddings_data = ollama_embedding(
-                    "shaw/dmeta-embedding-zh", value)
-                embeddings.append(embeddings_data)
+        for chapter in table_of_contents_data_json:
+            with open(f"src/ollama/json/books/魏書/{chapter}.json") as json_file:
+                data = json.load(json_file)
+                # print(f"data = {data}")
 
-                metadatas.append({"id": id})
+                for value in data:
+                    id = str(uuid.uuid4())
+                    ids.append(id)
+
+                    documents.append(value)
+
+                    embeddings_data = ollama_embedding(
+                        "shaw/dmeta-embedding-zh", value)
+                    embeddings.append(embeddings_data)
+
+                    metadatas.append(
+                        {
+                            "id": id,
+                            "book": "魏書",
+                            "chapter": chapter
+                        }
+                    )
 
     add_data(collection, ids, documents, embeddings, metadatas)
 
