@@ -427,7 +427,7 @@ def ollama_chat(model, content):
             },
         ],
         options={
-            'temperature': 0.6,
+            'temperature': 0,
         },
     )
     content = response['message']['content']
@@ -439,7 +439,7 @@ def ollama_generate(model, prompt):
         model=model,
         prompt=prompt,
         options={
-            'temperature': 0.6,
+            'temperature': 0,
         },
     )
     generated_result = response['response']
