@@ -1,22 +1,25 @@
-import ollama
-import pandas
 import json
 import uuid
+from glob import glob
+import ollama
+import pandas
 from src.ollama.db.db import get_collection, add_data
 
 
 def sanguozhi_ollama():
     collection = get_collection()
 
-    extract_xls()
+    extract_xls_and_create_json_file()
 
     read_json_file(collection)
 
 
-def extract_xls():
+def extract_xls_and_create_json_file():
+    excel_file_path = 'src/ollama/data/excel/sanguozhi.xls'
+
     # name
     name_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['姓名'])
+        excel_file_path, sheet_name='data', usecols=['姓名'])
     # print(f"name_data_df = {name_data_df}")
 
     # create name json file
@@ -25,7 +28,7 @@ def extract_xls():
 
     # second name
     second_name_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['字'])
+        excel_file_path, sheet_name='data', usecols=['字'])
     # print(f"second_name_data_df = {second_name_data_df}")
 
     # create second name json file
@@ -34,7 +37,7 @@ def extract_xls():
 
     # sex
     sex_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['性別'])
+        excel_file_path, sheet_name='data', usecols=['性別'])
     # print(f"sex_data_df = {sex_data_df}")
 
     # create sex json file
@@ -43,7 +46,7 @@ def extract_xls():
 
     # parent
     parent_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['父母'])
+        excel_file_path, sheet_name='data', usecols=['父母'])
     # print(f"parent_data_df = {parent_data_df}")
 
     # create parent json file
@@ -52,7 +55,7 @@ def extract_xls():
 
     # leadership
     leadership_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['統率'])
+        excel_file_path, sheet_name='data', usecols=['統率'])
     # print(f"leadership_data_df = {leadership_data_df}")
 
     # create leadership json file
@@ -61,7 +64,7 @@ def extract_xls():
 
     # force
     force_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['武力'])
+        excel_file_path, sheet_name='data', usecols=['武力'])
     # print(f"force_data_df = {force_data_df}")
 
     # create force json file
@@ -70,7 +73,7 @@ def extract_xls():
 
     # intelligence
     intelligence_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['智力'])
+        excel_file_path, sheet_name='data', usecols=['智力'])
     # print(f"intelligence_data_df = {intelligence_data_df}")
 
     # create intelligence json file
@@ -79,7 +82,7 @@ def extract_xls():
 
     # politics
     politics_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['政治'])
+        excel_file_path, sheet_name='data', usecols=['政治'])
     # print(f"politics_data_df = {politics_data_df}")
 
     # create politics json file
@@ -88,7 +91,7 @@ def extract_xls():
 
     # charm
     charm_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['魅力'])
+        excel_file_path, sheet_name='data', usecols=['魅力'])
     # print(f"charm_data_df = {charm_data_df}")
 
     # create charm json file
@@ -97,7 +100,7 @@ def extract_xls():
 
     # biographies of generals
     biographies_of_generals_data_df = pandas.read_excel(
-        'src/ollama/data/sanguozhi.xls', sheet_name='data', usecols=['武將列傳'])
+        excel_file_path, sheet_name='data', usecols=['武將列傳'])
     # print(f"biographies_of_generals_data_df = {biographies_of_generals_data_df}")
 
     # create biographies of generals json file
@@ -331,6 +334,58 @@ def read_json_file(collection):
             embeddings_data = ollama_embedding(
                 "shaw/dmeta-embedding-zh", value)
             embeddings.append(embeddings_data)
+
+    # read json file from books folder
+    for file_name in glob('src/ollama/json/books/吳書/*.json'):
+        with open(file_name) as json_file:
+            data = json.load(json_file)
+            # print(f"data = {data}")
+
+            for value in data:
+                id = str(uuid.uuid4())
+                ids.append(id)
+
+                documents.append(value)
+
+                embeddings_data = ollama_embedding(
+                    "shaw/dmeta-embedding-zh", value)
+                embeddings.append(embeddings_data)
+
+                metadatas.append({"id": id})
+
+    for file_name in glob('src/ollama/json/books/蜀書/*.json'):
+        with open(file_name) as json_file:
+            data = json.load(json_file)
+            # print(f"data = {data}")
+
+            for value in data:
+                id = str(uuid.uuid4())
+                ids.append(id)
+
+                documents.append(value)
+
+                embeddings_data = ollama_embedding(
+                    "shaw/dmeta-embedding-zh", value)
+                embeddings.append(embeddings_data)
+
+                metadatas.append({"id": id})
+
+    for file_name in glob('src/ollama/json/books/魏書/*.json'):
+        with open(file_name) as json_file:
+            data = json.load(json_file)
+            # print(f"data = {data}")
+
+            for value in data:
+                id = str(uuid.uuid4())
+                ids.append(id)
+
+                documents.append(value)
+
+                embeddings_data = ollama_embedding(
+                    "shaw/dmeta-embedding-zh", value)
+                embeddings.append(embeddings_data)
+
+                metadatas.append({"id": id})
 
     add_data(collection, ids, documents, embeddings, metadatas)
 
