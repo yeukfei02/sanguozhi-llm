@@ -2,6 +2,8 @@
 
 sanguozhi-llm
 
+Data source: `三國志`, `三國志十遊戲`
+
 This project aims to generate text using the `Ollama Llama 3` model with integrated embeddings and a vector database.
 
 Models and Tools:
@@ -19,10 +21,12 @@ documentation: <https://documenter.getpostman.com/view/3827865/2sAXjF7Zxn>
 
 api url: <>
 
+web url: <>
+
 ## Requirement
 
 - install python (v3.12)
-- install ollama llama (v3.1)
+- install ollama llama (v3)
 
 ## Testing and run
 
@@ -45,7 +49,7 @@ $ fastapi run main.py
 
 ```zsh
 // install dependencies
-$ cd web
+$ cd packages/web
 $ pip install -r requirements.txt
 
 // open sanguozhi_llm web
