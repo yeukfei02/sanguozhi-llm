@@ -2,7 +2,7 @@
 
 sanguozhi-llm
 
-Data source: `三國志`, `三國志十遊戲`
+Data source: `三國志`, `三國演義`, `三國志十遊戲`
 
 This project aims to generate text using the `Ollama Llama 3` model with integrated embeddings and a vector database.
 
