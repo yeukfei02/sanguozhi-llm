@@ -19,8 +19,9 @@ def sanguozhi_data_controller(request: Request):
         generated_text = ""
 
         search_text = request.query_params.get('search_text')
+        number_of_results = request.query_params.get('number_of_results')
         documents = embedding_result.get('documents')
-        if search_text and documents:
+        if search_text and number_of_results and documents:
             for document in documents:
                 prompt = f"Using this data: {document}. Respond to this prompt with Chinese: {search_text}"
                 generated_result = ollama_generate(

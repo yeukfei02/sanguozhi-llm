@@ -378,9 +378,9 @@ def read_json_file(collection, created_json_folder_path):
                         )
 
     # print(f"ids = {ids}")
-    print(f"documents = {documents}")
+    # print(f"documents = {documents}")
     # print(f"embeddings = {embeddings}")
-    print(f"metadatas = {metadatas}")
+    # print(f"metadatas = {metadatas}")
 
     add_data(collection, ids, documents, embeddings, metadatas)
 
