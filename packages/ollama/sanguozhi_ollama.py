@@ -19,6 +19,7 @@ def sanguozhi_ollama():
 def create_folder():
     # create folder is not exists
     created_json_folder_path = 'packages/ollama/json/三國志十遊戲'
+
     if not os.path.exists(created_json_folder_path):
         os.makedirs(created_json_folder_path)
 
@@ -347,8 +348,9 @@ def read_json_file(collection, created_json_folder_path):
 
     json_folder_path = "packages/ollama/json/books/三國志"
     books = ['吳書', '蜀書', '魏書']
+
+    # read json file from books folder
     for book in books:
-        # read json file from books folder
         with open(f"{json_folder_path}/{book}/目錄.json") as f:
             table_of_contents_data_json = json.load(f)
 
