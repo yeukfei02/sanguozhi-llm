@@ -9,12 +9,15 @@ This project aims to generate text using the `Ollama Llama 3` model with integra
 Models and Tools:
 
 LLM Model: `digimonster/llama3-chinese-response`
+
 Purpose: Generates responses in Chinese characters.
 
 Embedding Model: `shaw/dmeta-embedding-zh`
+
 Purpose: Provides Chinese character embeddings.
 
 Vector Database: `chromadb`
+
 Description: An AI-native, open-source vector database for efficient data retrieval and storage.
 
 documentation: <https://documenter.getpostman.com/view/3827865/2sAXjF7Zxn>
