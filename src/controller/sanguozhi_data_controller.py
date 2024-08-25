@@ -10,9 +10,10 @@ def sanguozhi_data_controller(request: Request):
         "result": {}
     }
 
-    if request.query_params:
+    query_params = request.query_params
+    if query_params:
         embedding_result = get_data_by_ollama_embedding_and_vector_db(
-            request.query_params)
+            query_params)
         print(f"embedding_result = {embedding_result}")
 
         generated_text = ""
