@@ -3,6 +3,7 @@ chromadb==0.5.4
 pandas==2.2.2
 xlrd==2.0.1
 fastapi[standard]==0.112.1
+uvicorn[standard]==0.30.6
 bacinet==0.0.6
 requests==2.32.3
 beautifulsoup4==4.12.3
