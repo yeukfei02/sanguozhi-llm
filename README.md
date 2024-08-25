@@ -45,6 +45,8 @@ $ fastapi dev main.py
 
 // run in prod
 $ fastapi run main.py
+or
+$ uvicorn main:app --host 0.0.0.0 --port 80
 ```
 
 ```zsh

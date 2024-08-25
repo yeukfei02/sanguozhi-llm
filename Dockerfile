@@ -6,14 +6,14 @@ WORKDIR /app
 
 COPY ./ .
 
+RUN apt-get update && apt-get install -y curl
+
 RUN curl -fsSL https://ollama.com/install.sh | sh
 
-RUN ollama pull digimonster/llama3-chinese-response
-
-RUN ollama pull shaw/dmeta-embedding-zh
+RUN sh /app/run-ollama.sh
 
 RUN pip install -r requirements.txt
 
 EXPOSE 80
 
-CMD ["fastapi", "run", "main.py", "--port", "80"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
