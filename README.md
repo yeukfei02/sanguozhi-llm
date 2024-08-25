@@ -2,6 +2,19 @@
 
 sanguozhi-llm
 
+This project aims to generate text using the `Ollama Llama 3` model with integrated embeddings and a vector database.
+
+Models and Tools:
+
+LLM Model: `digimonster/llama3-chinese-response`
+Purpose: Generates responses in Chinese characters.
+
+Embedding Model: `shaw/dmeta-embedding-zh`
+Purpose: Provides Chinese character embeddings.
+
+Vector Database: `chromadb`
+Description: An AI-native, open-source vector database for efficient data retrieval and storage.
+
 documentation: <https://documenter.getpostman.com/view/3827865/2sAXjF7Zxn>
 
 api url: <>
@@ -28,4 +41,13 @@ $ fastapi dev main.py
 
 // run in prod
 $ fastapi run main.py
+```
+
+```zsh
+// install dependencies
+$ cd web
+$ pip install -r requirements.txt
+
+// open sanguozhi_llm web
+$ streamlit run sanguozhi_llm.py
 ```
