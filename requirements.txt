@@ -4,3 +4,5 @@ pandas==2.2.2
 xlrd==2.0.1
 fastapi[standard]==0.112.1
 bacinet==0.0.6
+requests==2.32.3
+beautifulsoup4==4.12.3

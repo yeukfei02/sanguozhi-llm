@@ -3,29 +3,53 @@ import json
 import uuid
 import ollama
 import pandas
+import requests
+from bs4 import BeautifulSoup
 from packages.ollama.db.db import get_collection, add_data
 
 
 def sanguozhi_ollama():
     collection = get_collection()
 
-    created_json_folder_path = create_folder()
+    sanguozhi_json_folder_path, sanguoyanyi_json_folder_path, sanguozhi_ten_game_json_folder_path = create_folder()
 
-    extract_xls_and_create_json_file(created_json_folder_path)
+    extract_xls_and_create_json_file(sanguozhi_ten_game_json_folder_path)
 
-    read_json_file(collection, created_json_folder_path)
+    scrape_sanguoyanyi_and_create_json_file(sanguoyanyi_json_folder_path)
+
+    read_json_file(
+        collection,
+        sanguozhi_json_folder_path,
+        sanguoyanyi_json_folder_path,
+        sanguozhi_ten_game_json_folder_path
+    )
 
 
 def create_folder():
+    print("### create_folder start ###")
+
     # create folder is not exists
-    created_json_folder_path = 'packages/ollama/json/三國志十遊戲'
-    if not os.path.exists(created_json_folder_path):
-        os.makedirs(created_json_folder_path)
+    sanguozhi_json_folder_path = 'packages/ollama/json/books/三國志'
+    sanguoyanyi_json_folder_path = 'packages/ollama/json/books/三國演義'
+    sanguozhi_ten_game_json_folder_path = 'packages/ollama/json/games/三國志十'
 
-    return created_json_folder_path
+    if not os.path.exists(sanguozhi_json_folder_path):
+        os.makedirs(sanguozhi_json_folder_path)
+
+    if not os.path.exists(sanguoyanyi_json_folder_path):
+        os.makedirs(sanguoyanyi_json_folder_path)
+
+    if not os.path.exists(sanguozhi_ten_game_json_folder_path):
+        os.makedirs(sanguozhi_ten_game_json_folder_path)
+
+    print("### create_folder end ###")
+
+    return sanguozhi_json_folder_path, sanguoyanyi_json_folder_path, sanguozhi_ten_game_json_folder_path
 
 
-def extract_xls_and_create_json_file(created_json_folder_path):
+def extract_xls_and_create_json_file(sanguozhi_ten_game_json_folder_path):
+    print("### extract_xls_and_create_json_file start ###")
+
     excel_file_path = 'packages/ollama/data/excel/sanguozhi.xls'
 
     # name
@@ -34,7 +58,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"name_data_df = {name_data_df}")
 
     # create name json file
-    with open(f"{created_json_folder_path}/name_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/name_data_df.json", 'w', encoding='utf-8') as file:
         name_data_df.to_json(file, force_ascii=False)
 
     # second name
@@ -43,7 +67,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"second_name_data_df = {second_name_data_df}")
 
     # create second name json file
-    with open(f"{created_json_folder_path}/second_name_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/second_name_data_df.json", 'w', encoding='utf-8') as file:
         second_name_data_df.to_json(file, force_ascii=False)
 
     # sex
@@ -52,7 +76,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"sex_data_df = {sex_data_df}")
 
     # create sex json file
-    with open(f"{created_json_folder_path}/sex_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/sex_data_df.json", 'w', encoding='utf-8') as file:
         sex_data_df.to_json(file, force_ascii=False)
 
     # parent
@@ -61,7 +85,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"parent_data_df = {parent_data_df}")
 
     # create parent json file
-    with open(f"{created_json_folder_path}/parent_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/parent_data_df.json", 'w', encoding='utf-8') as file:
         parent_data_df.to_json(file, force_ascii=False)
 
     # leadership
@@ -70,7 +94,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"leadership_data_df = {leadership_data_df}")
 
     # create leadership json file
-    with open(f"{created_json_folder_path}/leadership_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/leadership_data_df.json", 'w', encoding='utf-8') as file:
         leadership_data_df.to_json(file, force_ascii=False)
 
     # force
@@ -79,7 +103,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"force_data_df = {force_data_df}")
 
     # create force json file
-    with open(f"{created_json_folder_path}/force_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/force_data_df.json", 'w', encoding='utf-8') as file:
         force_data_df.to_json(file, force_ascii=False)
 
     # intelligence
@@ -88,7 +112,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"intelligence_data_df = {intelligence_data_df}")
 
     # create intelligence json file
-    with open(f"{created_json_folder_path}/intelligence_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/intelligence_data_df.json", 'w', encoding='utf-8') as file:
         intelligence_data_df.to_json(file, force_ascii=False)
 
     # politics
@@ -97,7 +121,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"politics_data_df = {politics_data_df}")
 
     # create politics json file
-    with open(f"{created_json_folder_path}/politics_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/politics_data_df.json", 'w', encoding='utf-8') as file:
         politics_data_df.to_json(file, force_ascii=False)
 
     # charm
@@ -106,7 +130,7 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"charm_data_df = {charm_data_df}")
 
     # create charm json file
-    with open(f"{created_json_folder_path}/charm_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/charm_data_df.json", 'w', encoding='utf-8') as file:
         charm_data_df.to_json(file, force_ascii=False)
 
     # biographies of generals
@@ -115,11 +139,60 @@ def extract_xls_and_create_json_file(created_json_folder_path):
     # print(f"biographies_of_generals_data_df = {biographies_of_generals_data_df}")
 
     # create biographies of generals json file
-    with open(f"{created_json_folder_path}/biographies_of_generals_data_df.json", 'w', encoding='utf-8') as file:
+    with open(f"{sanguozhi_ten_game_json_folder_path}/biographies_of_generals_data_df.json", 'w', encoding='utf-8') as file:
         biographies_of_generals_data_df.to_json(file, force_ascii=False)
 
+    print("### extract_xls_and_create_json_file end ###")
 
-def read_json_file(collection, created_json_folder_path):
+
+def scrape_sanguoyanyi_and_create_json_file(sanguoyanyi_json_folder_path):
+    print("### scrape_sanguoyanyi_and_create_json_file start ###")
+
+    for i in range(1, 121):
+        url = f"https://www.shicimingju.com/book/sanguoyanyi/{i}.html"
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.142.86 Safari/537.36',
+        }
+
+        response = requests.get(url=url, headers=headers)
+        response.encoding = 'utf-8'
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # chapter header
+        chapter_header_text = ''
+
+        chapter_header = soup.select(
+            "#main_left > div.card.bookmark-list > h1")
+        if chapter_header:
+            chapter_header_text = chapter_header[0].text
+
+        # chapter content
+        chapter_content_text = ''
+
+        chapter_content = soup.find('div', class_='chapter_content')
+        if chapter_content:
+            chapter_content_text = chapter_content.text.strip()
+
+        if chapter_header_text and chapter_content_text:
+            lines = chapter_content_text.split('\n')
+
+            # insert chapter header to first index
+            lines.insert(0, chapter_header_text)
+
+            json_data = json.dumps(lines, ensure_ascii=False, indent=4)
+
+            output_file = f'{sanguoyanyi_json_folder_path}/chapter_{i}.json'
+            with open(output_file, 'w', encoding='utf-8') as f:
+                f.write(json_data)
+
+    print("### scrape_sanguoyanyi_and_create_json_file end ###")
+
+
+def read_json_file(collection, sanguozhi_json_folder_path, sanguoyanyi_json_folder_path, sanguozhi_ten_game_json_folder_path):
+    print("### read_json_file start ###")
+
     ids = []
     documents = []
     embeddings = []
@@ -127,7 +200,7 @@ def read_json_file(collection, created_json_folder_path):
 
     temp_obj = {}
 
-    with open(f'{created_json_folder_path}/name_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/name_data_df.json') as f:
         name_data_json = json.load(f)
 
         names = name_data_json['姓名']
@@ -141,7 +214,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 ids.append(uuid_str)
 
-    with open(f'{created_json_folder_path}/second_name_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/second_name_data_df.json') as f:
         second_name_data_json = json.load(f)
 
         second_names = second_name_data_json['字']
@@ -159,7 +232,7 @@ def read_json_file(collection, created_json_folder_path):
                     "字": value if value else ""
                 }
 
-    with open(f'{created_json_folder_path}/sex_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/sex_data_df.json') as f:
         sex_data_json = json.load(f)
 
         sex_list = sex_data_json['性別']
@@ -181,7 +254,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/parent_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/parent_data_df.json') as f:
         parent_data_json = json.load(f)
 
         parents = parent_data_json['父母']
@@ -203,7 +276,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/leadership_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/leadership_data_df.json') as f:
         leadership_data_json = json.load(f)
 
         leaderships = leadership_data_json['統率']
@@ -225,7 +298,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/force_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/force_data_df.json') as f:
         force_data_json = json.load(f)
 
         forces = force_data_json['武力']
@@ -247,7 +320,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/intelligence_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/intelligence_data_df.json') as f:
         intelligence_data_json = json.load(f)
 
         intelligences = intelligence_data_json['智力']
@@ -269,7 +342,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/politics_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/politics_data_df.json') as f:
         politics_data_json = json.load(f)
 
         politics = politics_data_json['政治']
@@ -291,7 +364,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/charm_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/charm_data_df.json') as f:
         charm_data_json = json.load(f)
 
         charms = charm_data_json['魅力']
@@ -313,7 +386,7 @@ def read_json_file(collection, created_json_folder_path):
 
                 existing_metadata.update(new_metadata)
 
-    with open(f'{created_json_folder_path}/biographies_of_generals_data_df.json') as f:
+    with open(f'{sanguozhi_ten_game_json_folder_path}/biographies_of_generals_data_df.json') as f:
         biographies_of_generals_data_json = json.load(f)
 
         biographies_of_generals = biographies_of_generals_data_json['武將列傳']
@@ -345,15 +418,14 @@ def read_json_file(collection, created_json_folder_path):
                 "shaw/dmeta-embedding-zh", value)
             embeddings.append(embeddings_data)
 
-    json_folder_path = "packages/ollama/json/books/三國志"
-    books = ['吳書', '蜀書', '魏書']
+    # read json file from books 三國志 folder
+    books = ['魏書', '蜀書', '吳書']
     for book in books:
-        # read json file from books folder
-        with open(f"{json_folder_path}/{book}/目錄.json") as f:
+        with open(f"{sanguozhi_json_folder_path}/{book}/目錄.json") as f:
             table_of_contents_data_json = json.load(f)
 
             for chapter in table_of_contents_data_json:
-                with open(f"{json_folder_path}/{book}/{chapter}.json") as json_file:
+                with open(f"{sanguozhi_json_folder_path}/{book}/{chapter}.json") as json_file:
                     data = json.load(json_file)
                     # print(f"data = {data}")
 
@@ -370,17 +442,42 @@ def read_json_file(collection, created_json_folder_path):
                         metadatas.append(
                             {
                                 "id": id,
-                                "book": book,
+                                "book": f"三國志 - {book}",
                                 "chapter": chapter
                             }
                         )
 
+    # read json file from books 三國演義 folder
+    for i in range(1, 121):
+        with open(f"{sanguoyanyi_json_folder_path}/chapter_{i}.json") as f:
+            chapter_data_json = json.load(f)
+
+            for value in chapter_data_json:
+                id = str(uuid.uuid4())
+                ids.append(id)
+
+                documents.append(value)
+
+                embeddings_data = ollama_embedding(
+                    "shaw/dmeta-embedding-zh", value)
+                embeddings.append(embeddings_data)
+
+                metadatas.append(
+                    {
+                        "id": id,
+                        "book": "三國演義",
+                        "chapter": chapter_data_json[0]
+                    }
+                )
+
     # print(f"ids = {ids}")
-    print(f"documents = {documents}")
+    # print(f"documents = {documents}")
     # print(f"embeddings = {embeddings}")
-    print(f"metadatas = {metadatas}")
+    # print(f"metadatas = {metadatas}")
 
     add_data(collection, ids, documents, embeddings, metadatas)
+
+    print("### read_json_file end ###")
 
 
 def ollama_chat(model, content):
