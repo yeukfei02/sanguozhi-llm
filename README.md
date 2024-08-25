@@ -45,7 +45,7 @@ $ fastapi run main.py
 
 ```zsh
 // install dependencies
-$ cd web
+$ cd packages/web
 $ pip install -r requirements.txt
 
 // open sanguozhi_llm web
