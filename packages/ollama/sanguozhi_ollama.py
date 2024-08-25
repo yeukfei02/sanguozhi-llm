@@ -1,3 +1,4 @@
+import os
 import json
 import uuid
 import ollama
@@ -8,12 +9,23 @@ from packages.ollama.db.db import get_collection, add_data
 def sanguozhi_ollama():
     collection = get_collection()
 
-    extract_xls_and_create_json_file()
+    created_json_folder_path = create_folder()
 
-    read_json_file(collection)
+    extract_xls_and_create_json_file(created_json_folder_path)
+
+    read_json_file(collection, created_json_folder_path)
 
 
-def extract_xls_and_create_json_file():
+def create_folder():
+    # create folder is not exists
+    created_json_folder_path = 'packages/ollama/json/三國志十遊戲'
+    if not os.path.exists(created_json_folder_path):
+        os.makedirs(created_json_folder_path)
+
+    return created_json_folder_path
+
+
+def extract_xls_and_create_json_file(created_json_folder_path):
     excel_file_path = 'packages/ollama/data/excel/sanguozhi.xls'
 
     # name
@@ -22,7 +34,7 @@ def extract_xls_and_create_json_file():
     # print(f"name_data_df = {name_data_df}")
 
     # create name json file
-    with open('packages/ollama/json/name_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/name_data_df.json", 'w', encoding='utf-8') as file:
         name_data_df.to_json(file, force_ascii=False)
 
     # second name
@@ -31,7 +43,7 @@ def extract_xls_and_create_json_file():
     # print(f"second_name_data_df = {second_name_data_df}")
 
     # create second name json file
-    with open('packages/ollama/json/second_name_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/second_name_data_df.json", 'w', encoding='utf-8') as file:
         second_name_data_df.to_json(file, force_ascii=False)
 
     # sex
@@ -40,7 +52,7 @@ def extract_xls_and_create_json_file():
     # print(f"sex_data_df = {sex_data_df}")
 
     # create sex json file
-    with open('packages/ollama/json/sex_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/sex_data_df.json", 'w', encoding='utf-8') as file:
         sex_data_df.to_json(file, force_ascii=False)
 
     # parent
@@ -49,7 +61,7 @@ def extract_xls_and_create_json_file():
     # print(f"parent_data_df = {parent_data_df}")
 
     # create parent json file
-    with open('packages/ollama/json/parent_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/parent_data_df.json", 'w', encoding='utf-8') as file:
         parent_data_df.to_json(file, force_ascii=False)
 
     # leadership
@@ -58,7 +70,7 @@ def extract_xls_and_create_json_file():
     # print(f"leadership_data_df = {leadership_data_df}")
 
     # create leadership json file
-    with open('packages/ollama/json/leadership_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/leadership_data_df.json", 'w', encoding='utf-8') as file:
         leadership_data_df.to_json(file, force_ascii=False)
 
     # force
@@ -67,7 +79,7 @@ def extract_xls_and_create_json_file():
     # print(f"force_data_df = {force_data_df}")
 
     # create force json file
-    with open('packages/ollama/json/force_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/force_data_df.json", 'w', encoding='utf-8') as file:
         force_data_df.to_json(file, force_ascii=False)
 
     # intelligence
@@ -76,7 +88,7 @@ def extract_xls_and_create_json_file():
     # print(f"intelligence_data_df = {intelligence_data_df}")
 
     # create intelligence json file
-    with open('packages/ollama/json/intelligence_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/intelligence_data_df.json", 'w', encoding='utf-8') as file:
         intelligence_data_df.to_json(file, force_ascii=False)
 
     # politics
@@ -85,7 +97,7 @@ def extract_xls_and_create_json_file():
     # print(f"politics_data_df = {politics_data_df}")
 
     # create politics json file
-    with open('packages/ollama/json/politics_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/politics_data_df.json", 'w', encoding='utf-8') as file:
         politics_data_df.to_json(file, force_ascii=False)
 
     # charm
@@ -94,7 +106,7 @@ def extract_xls_and_create_json_file():
     # print(f"charm_data_df = {charm_data_df}")
 
     # create charm json file
-    with open('packages/ollama/json/charm_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/charm_data_df.json", 'w', encoding='utf-8') as file:
         charm_data_df.to_json(file, force_ascii=False)
 
     # biographies of generals
@@ -103,11 +115,11 @@ def extract_xls_and_create_json_file():
     # print(f"biographies_of_generals_data_df = {biographies_of_generals_data_df}")
 
     # create biographies of generals json file
-    with open('packages/ollama/json/biographies_of_generals_data_df.json', 'w', encoding='utf-8') as file:
+    with open(f"{created_json_folder_path}/biographies_of_generals_data_df.json", 'w', encoding='utf-8') as file:
         biographies_of_generals_data_df.to_json(file, force_ascii=False)
 
 
-def read_json_file(collection):
+def read_json_file(collection, created_json_folder_path):
     ids = []
     documents = []
     embeddings = []
@@ -115,7 +127,7 @@ def read_json_file(collection):
 
     temp_obj = {}
 
-    with open('packages/ollama/json/name_data_df.json') as f:
+    with open(f'{created_json_folder_path}/name_data_df.json') as f:
         name_data_json = json.load(f)
 
         names = name_data_json['姓名']
@@ -129,7 +141,7 @@ def read_json_file(collection):
 
                 ids.append(uuid_str)
 
-    with open('packages/ollama/json/second_name_data_df.json') as f:
+    with open(f'{created_json_folder_path}/second_name_data_df.json') as f:
         second_name_data_json = json.load(f)
 
         second_names = second_name_data_json['字']
@@ -147,7 +159,7 @@ def read_json_file(collection):
                     "字": value if value else ""
                 }
 
-    with open('packages/ollama/json/sex_data_df.json') as f:
+    with open(f'{created_json_folder_path}/sex_data_df.json') as f:
         sex_data_json = json.load(f)
 
         sex_list = sex_data_json['性別']
@@ -169,7 +181,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/parent_data_df.json') as f:
+    with open(f'{created_json_folder_path}/parent_data_df.json') as f:
         parent_data_json = json.load(f)
 
         parents = parent_data_json['父母']
@@ -191,7 +203,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/leadership_data_df.json') as f:
+    with open(f'{created_json_folder_path}/leadership_data_df.json') as f:
         leadership_data_json = json.load(f)
 
         leaderships = leadership_data_json['統率']
@@ -213,7 +225,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/force_data_df.json') as f:
+    with open(f'{created_json_folder_path}/force_data_df.json') as f:
         force_data_json = json.load(f)
 
         forces = force_data_json['武力']
@@ -235,7 +247,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/intelligence_data_df.json') as f:
+    with open(f'{created_json_folder_path}/intelligence_data_df.json') as f:
         intelligence_data_json = json.load(f)
 
         intelligences = intelligence_data_json['智力']
@@ -257,7 +269,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/politics_data_df.json') as f:
+    with open(f'{created_json_folder_path}/politics_data_df.json') as f:
         politics_data_json = json.load(f)
 
         politics = politics_data_json['政治']
@@ -279,7 +291,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/charm_data_df.json') as f:
+    with open(f'{created_json_folder_path}/charm_data_df.json') as f:
         charm_data_json = json.load(f)
 
         charms = charm_data_json['魅力']
@@ -301,7 +313,7 @@ def read_json_file(collection):
 
                 existing_metadata.update(new_metadata)
 
-    with open('packages/ollama/json/biographies_of_generals_data_df.json') as f:
+    with open(f'{created_json_folder_path}/biographies_of_generals_data_df.json') as f:
         biographies_of_generals_data_json = json.load(f)
 
         biographies_of_generals = biographies_of_generals_data_json['武將列傳']
@@ -324,7 +336,6 @@ def read_json_file(collection):
                 existing_metadata.update(new_metadata)
 
     # print(f"temp_obj = {temp_obj}")
-    # print(f"metadatas = {metadatas}")
 
     if temp_obj:
         for _, value in temp_obj.items():
@@ -334,84 +345,40 @@ def read_json_file(collection):
                 "shaw/dmeta-embedding-zh", value)
             embeddings.append(embeddings_data)
 
-    # read json file from books folder
-    with open('packages/ollama/json/books/三國志/吳書/目錄.json') as f:
-        table_of_contents_data_json = json.load(f)
+    json_folder_path = "packages/ollama/json/books/三國志"
+    books = ['吳書', '蜀書', '魏書']
+    for book in books:
+        # read json file from books folder
+        with open(f"{json_folder_path}/{book}/目錄.json") as f:
+            table_of_contents_data_json = json.load(f)
 
-        for chapter in table_of_contents_data_json:
-            with open(f"packages/ollama/json/books/三國志/吳書/{chapter}.json") as json_file:
-                data = json.load(json_file)
-                # print(f"data = {data}")
+            for chapter in table_of_contents_data_json:
+                with open(f"{json_folder_path}/{book}/{chapter}.json") as json_file:
+                    data = json.load(json_file)
+                    # print(f"data = {data}")
 
-                for value in data:
-                    id = str(uuid.uuid4())
-                    ids.append(id)
+                    for value in data:
+                        id = str(uuid.uuid4())
+                        ids.append(id)
 
-                    documents.append(value)
+                        documents.append(value)
 
-                    embeddings_data = ollama_embedding(
-                        "shaw/dmeta-embedding-zh", value)
-                    embeddings.append(embeddings_data)
+                        embeddings_data = ollama_embedding(
+                            "shaw/dmeta-embedding-zh", value)
+                        embeddings.append(embeddings_data)
 
-                    metadatas.append(
-                        {
-                            "id": id,
-                            "book": "吳書",
-                            "chapter": chapter
-                        }
-                    )
+                        metadatas.append(
+                            {
+                                "id": id,
+                                "book": book,
+                                "chapter": chapter
+                            }
+                        )
 
-    with open('packages/ollama/json/books/三國志/蜀書/目錄.json') as f:
-        table_of_contents_data_json = json.load(f)
-
-        for chapter in table_of_contents_data_json:
-            with open(f"packages/ollama/json/books/三國志/蜀書/{chapter}.json") as json_file:
-                data = json.load(json_file)
-                # print(f"data = {data}")
-
-                for value in data:
-                    id = str(uuid.uuid4())
-                    ids.append(id)
-
-                    documents.append(value)
-
-                    embeddings_data = ollama_embedding(
-                        "shaw/dmeta-embedding-zh", value)
-                    embeddings.append(embeddings_data)
-
-                    metadatas.append(
-                        {
-                            "id": id,
-                            "book": "蜀書",
-                            "chapter": chapter
-                        }
-                    )
-
-    with open('packages/ollama/json/books/三國志/魏書/目錄.json') as f:
-        table_of_contents_data_json = json.load(f)
-
-        for chapter in table_of_contents_data_json:
-            with open(f"packages/ollama/json/books/三國志/魏書/{chapter}.json") as json_file:
-                data = json.load(json_file)
-                # print(f"data = {data}")
-
-                for value in data:
-                    id = str(uuid.uuid4())
-                    ids.append(id)
-
-                    documents.append(value)
-
-                    embeddings_data = ollama_embedding(
-                        "shaw/dmeta-embedding-zh", value)
-                    embeddings.append(embeddings_data)
-
-                    metadatas.append(
-                        {
-                            "id": id,
-                            "book": "魏書",
-                            "chapter": chapter
-                        }
-                    )
+    # print(f"ids = {ids}")
+    print(f"documents = {documents}")
+    # print(f"embeddings = {embeddings}")
+    print(f"metadatas = {metadatas}")
 
     add_data(collection, ids, documents, embeddings, metadatas)
 

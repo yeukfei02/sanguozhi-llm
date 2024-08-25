@@ -123,4 +123,8 @@ if submit_button_clicked:
                 embedding_result = sanguozhi_data_api_response['embedding_result']
 
                 st.write(f"Result: {result}")
-                st.write(f"Embedding Result: {embedding_result}")
+
+                st.write("")
+
+                st.write("Embedding Result:")
+                st.json(embedding_result)
