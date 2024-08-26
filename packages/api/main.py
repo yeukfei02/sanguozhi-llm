@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from bacinet import BacinetMiddleware
-from packages.api.routes.routes import data_router
+from routes.routes import data_router
 
 
 app = FastAPI()

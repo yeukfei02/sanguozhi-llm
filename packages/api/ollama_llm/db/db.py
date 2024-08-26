@@ -2,7 +2,7 @@ import chromadb
 
 
 def get_collection():
-    client = chromadb.PersistentClient(path="packages/ollama/db")
+    client = chromadb.PersistentClient(path="ollama_llm/db")
 
     heartbeat = client.heartbeat()
     print(f"heartbeat = {heartbeat}")

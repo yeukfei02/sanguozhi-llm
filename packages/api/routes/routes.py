@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from packages.api.controller.sanguozhi_data_controller import sanguozhi_data_controller
+from controller.sanguozhi_data_controller import sanguozhi_data_controller
 
 data_router = APIRouter()
 

@@ -35,6 +35,7 @@ web url: <>
 
 ```zsh
 // install dependencies
+$ cd packages/api
 $ pip install -r requirements.txt
 
 // pull llm model
@@ -44,12 +45,15 @@ $ ollama pull digimonster/llama3-chinese-response
 $ ollama pull shaw/dmeta-embedding-zh
 
 // seed chromadb
+$ cd packages/api
 $ python seed_chromadb.py
 
 // run in dev
+$ cd packages/api
 $ fastapi dev main.py
 
 // run in prod
+$ cd packages/api
 $ fastapi run main.py
 or
 $ uvicorn main:app --host 0.0.0.0 --port 80
