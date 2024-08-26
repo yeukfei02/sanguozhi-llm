@@ -1,14 +1,8 @@
-from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from bacinet import BacinetMiddleware
-from packages.ollama.sanguozhi_ollama import sanguozhi_ollama
 from packages.api.routes.routes import data_router
 
-chroma_sqlite_file = Path("packages/ollama/db/chroma.sqlite3")
-if not chroma_sqlite_file.is_file():
-    # sanguozhi ollama
-    sanguozhi_ollama()
 
 app = FastAPI()
 
