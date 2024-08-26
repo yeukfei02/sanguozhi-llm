@@ -5,7 +5,7 @@ import ollama
 import pandas
 import requests
 from bs4 import BeautifulSoup
-from packages.ollama.db.db import get_collection, add_data
+from ollama_llm.db.db import get_collection, add_data
 
 
 def sanguozhi_ollama():
@@ -29,9 +29,9 @@ def create_folder():
     print("### create_folder start ###")
 
     # create folder is not exists
-    sanguozhi_json_folder_path = 'packages/ollama/json/books/三國志'
-    sanguoyanyi_json_folder_path = 'packages/ollama/json/books/三國演義'
-    sanguozhi_ten_game_json_folder_path = 'packages/ollama/json/games/三國志十'
+    sanguozhi_json_folder_path = 'ollama_llm/json/books/三國志'
+    sanguoyanyi_json_folder_path = 'ollama_llm/json/books/三國演義'
+    sanguozhi_ten_game_json_folder_path = 'ollama_llm/json/games/三國志十'
 
     if not os.path.exists(sanguozhi_json_folder_path):
         os.makedirs(sanguozhi_json_folder_path)
@@ -50,7 +50,7 @@ def create_folder():
 def extract_xls_and_create_json_file(sanguozhi_ten_game_json_folder_path):
     print("### extract_xls_and_create_json_file start ###")
 
-    excel_file_path = 'packages/ollama/data/excel/sanguozhi.xls'
+    excel_file_path = 'ollama_llm/data/excel/sanguozhi.xls'
 
     # name
     name_data_df = pandas.read_excel(

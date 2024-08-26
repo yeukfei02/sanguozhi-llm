@@ -1,7 +1,7 @@
 from fastapi import Request, status
 from fastapi.responses import JSONResponse
-from packages.ollama.db.db import get_collection, get_data
-from packages.ollama.sanguozhi_ollama import ollama_embedding, ollama_generate
+from ollama_llm.db.db import get_collection, get_data
+from ollama_llm.sanguozhi_ollama import ollama_embedding, ollama_generate
 
 
 def sanguozhi_data_controller(request: Request):
