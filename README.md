@@ -43,6 +43,9 @@ $ ollama pull digimonster/llama3-chinese-response
 // pull embedding model
 $ ollama pull shaw/dmeta-embedding-zh
 
+// seed chromadb
+$ python seed_chromadb.py
+
 // run in dev
 $ fastapi dev main.py
 
