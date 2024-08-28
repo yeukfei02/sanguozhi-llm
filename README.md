@@ -22,9 +22,9 @@ Description: An AI-native, open-source vector database for efficient data retrie
 
 documentation: <https://documenter.getpostman.com/view/3827865/2sAXjF7Zxn>
 
-api url: <>
+api url: <http://localhost:8000>
 
-web url: <>
+web url: <http://localhost:8501>
 
 ## Requirement
 
@@ -47,6 +47,10 @@ $ ollama pull shaw/dmeta-embedding-zh
 // seed chromadb
 $ cd packages/api
 $ python seed_chromadb.py
+
+// run ollama
+$ cd packages/api
+$ sh run-ollama.sh
 
 // run in dev
 $ cd packages/api
